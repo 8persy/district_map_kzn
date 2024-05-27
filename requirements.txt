@@ -149,3 +149,5 @@ yaml=0.2.5=h0d85af4_2
 zeromq=4.3.5=hcec6c5f_0
 zipp=3.17.0=pyhd8ed1ab_0
 zlib=1.2.13=h4dc903c_0
+
+pandas~=2.2.2
