@@ -17,11 +17,11 @@ class ConvexHullBuilder:
         def orientation(p, q, r):
             val = (q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1])
             if val == 0:
-                return 0
+                return 0  # collinear
             elif val > 0:
-                return 1
+                return 1  # clockwise
             else:
-                return 2
+                return 2  # counterclockwise
 
         def algorithm(points):
             n = len(points)
@@ -36,7 +36,7 @@ class ConvexHullBuilder:
                 hull.append(p)
                 q = points[0]
                 for r in points:
-                    if orientation(p, q, r) == 2:
+                    if (q == p) or (orientation(p, q, r) == 2):
                         q = r
 
                 p = q

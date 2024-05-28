@@ -1,6 +1,8 @@
 import pandas as pd
+import numpy as np
 from ipyleaflet import Map, Marker, Polygon, FullScreenControl, LegendControl
 from ipywidgets import Layout
+import ast
 
 
 class MapRenderer:
@@ -25,9 +27,20 @@ class MapRenderer:
             center = row['center']
             color = row['color']
 
+            # Убедимся, что points является списком кортежей
+            if isinstance(points, str):
+                points = ast.literal_eval(points)
+
+            print(f"District: {district_name}, Points: {points}, Center: {center}, Color: {color}")  # Отладочный вывод
+
+            # Проверка наличия координат
+            if not points:
+                print(f"No points for district: {district_name}")
+                continue
+
             # Добавление полигона для района
             polygon = Polygon(
-                locations=points,
+                locations=[(point[0], point[1]) for point in points],
                 color=color,
                 fill_color=color,
                 fill_opacity=0.5,
@@ -48,7 +61,7 @@ class MapRenderer:
 
         # Создание легенды
         legend = LegendControl(
-            {"items": legend_items},
+            {district_name: color for district_name, color in legend_items},
             name="Legend",
             position="bottomright"
         )
